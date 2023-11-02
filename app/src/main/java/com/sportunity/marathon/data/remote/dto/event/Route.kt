@@ -1,4 +1,4 @@
-package com.sportunity.marathon.model.event
+package com.sportunity.marathon.data.remote.dto.event
 
 import kotlinx.serialization.Serializable
 
