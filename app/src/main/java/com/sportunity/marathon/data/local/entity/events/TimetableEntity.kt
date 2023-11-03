@@ -1,11 +1,11 @@
-package com.sportunity.marathon.model.events
+package com.sportunity.marathon.data.local.entity.events
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Timetable(
+data class TimetableEntity(
     val icon: String,
     val name: String,
     val published: Boolean,
-    val timetable: List<TimetableX>
+    val timetable: List<TimetableXEntity>
 )

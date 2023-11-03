@@ -1,4 +1,4 @@
-package com.sportunity.marathon.model.event
+package com.sportunity.marathon.data.local.entity.event
 
 import kotlinx.serialization.Serializable
 

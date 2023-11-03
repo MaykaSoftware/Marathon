@@ -1,6 +1,6 @@
-package com.sportunity.marathon.model.events
+package com.sportunity.marathon.data.remote.dto.events
 
-import com.sportunity.marathon.model.Statistics
+import com.sportunity.marathon.data.remote.dto.Statistics
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
