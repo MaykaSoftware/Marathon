@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Timetable(
-    val icon: String,
+    val icon: String?,
     val name: String,
     val published: Boolean,
     val timetable: List<TimetableX>
