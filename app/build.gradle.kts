@@ -5,6 +5,7 @@ plugins {
     kotlin("plugin.serialization") version "1.9.10"
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -74,7 +75,7 @@ dependencies {
     //Hilt
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-android-compiler:2.48.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
     //Room
     implementation("androidx.room:room-runtime:2.6.0")
@@ -99,11 +100,13 @@ dependencies {
     implementation ("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
     //Navigation
-    implementation("androidx.navigation:navigation-compose:2.7.4")
+    implementation("androidx.navigation:navigation-compose:2.7.5")
 
     //Maps
-    implementation ("com.google.maps.android:maps-compose:3.1.0")
-    implementation ("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.maps.android:maps-compose:4.1.1")
+    implementation("com.google.maps.android:maps-compose-utils:4.1.1")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
     //Datastore
     implementation ("androidx.datastore:datastore-preferences:1.0.0")
