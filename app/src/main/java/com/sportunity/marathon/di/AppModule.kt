@@ -1,10 +1,16 @@
 package com.sportunity.marathon.di
 
 import android.content.Context
+import androidx.paging.Pager
 import androidx.room.Room
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.sportunity.marathon.data.local.dao.MarathonEventDao
 import com.sportunity.marathon.data.local.database.MarathonDatabase
+import com.sportunity.marathon.data.local.entity.events.ItemEntity
+import com.sportunity.marathon.data.remote.service.MarathonService
 import com.sportunity.marathon.data.remote.service.MarathonService.Companion.BASE_URL
+import com.sportunity.marathon.domain.repository.MarathonRepository
+import com.sportunity.marathon.domain.repository.MarathonRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,6 +42,11 @@ object AppModule {
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
+
+        builder.apply {
+            addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+        }
+
         return builder.build()
     }
 
@@ -53,5 +64,15 @@ object AppModule {
             .client(okHttpClient)
             .addConverterFactory(jsonConverter)
             .baseUrl(BASE_URL)
+    }
+
+    @Provides
+    @Singleton
+    fun bindArtRepository(
+        pager: Pager<Int, ItemEntity>,
+        marathonService: MarathonService,
+        marathonEventDao: MarathonEventDao
+    ): MarathonRepository {
+        return MarathonRepositoryImpl(pager, marathonService, marathonEventDao)
     }
 }

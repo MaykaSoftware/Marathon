@@ -104,4 +104,7 @@ dependencies {
     //Maps
     implementation ("com.google.maps.android:maps-compose:3.1.0")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
+
+    //Datastore
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")
 }
