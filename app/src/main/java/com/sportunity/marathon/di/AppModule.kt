@@ -82,6 +82,6 @@ object AppModule {
         marathonEventDao: MarathonEventDao,
         fusedLocationProviderClient: FusedLocationProviderClient
     ): MarathonRepository {
-        return MarathonRepositoryImpl(pager, marathonService, marathonEventDao, fusedLocationProviderClient)
+        return MarathonRepositoryImpl(pager, marathonService, fusedLocationProviderClient)
     }
 }
