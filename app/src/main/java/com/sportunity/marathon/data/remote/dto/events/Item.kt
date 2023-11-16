@@ -23,8 +23,8 @@ data class Item(
 //    val distanceUnits: String,
 //    @SerialName("house_number")
 //    val houseNumber: String?,
-//    @SerialName("image_url")
-//    val imageUrl: String,
+    @SerialName("image_url")
+    val imageUrl: String?,
 //    @SerialName("live_tracking_text")
 //    val liveTrackingText: String,
 //    @SerialName("live_tracking_title")
