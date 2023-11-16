@@ -1,5 +1,6 @@
 package com.sportunity.marathon.data.remote.service
 
+import com.sportunity.marathon.data.remote.dto.event.MarathonRaceDTO
 import com.sportunity.marathon.data.remote.dto.events.MarathonEvents
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -14,11 +15,11 @@ interface MarathonService {
         @Query("page") page: Int = 1
     ): MarathonEvents
 
-    @GET("985/races/{id}")
+    @GET("events/985/races/{id}")
     suspend fun getRace(
         @Path("id") id: Int,
         @Query("include") include: String = "route"
-    )
+    ): MarathonRaceDTO
 
     companion object {
         const val BASE_URL = "https://api.tracx.events/v1/web/"

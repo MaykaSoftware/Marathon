@@ -5,8 +5,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MarathonRace(
-    val distance: Int,
+data class MarathonRaceDTO(
+    val distance: Double,
     val id: Int,
     val name: String,
     @SerialName("participant_count")

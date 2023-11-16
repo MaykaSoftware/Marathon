@@ -5,7 +5,6 @@ import com.sportunity.marathon.data.local.entity.events.ItemEntity
 import com.sportunity.marathon.data.local.entity.events.RaceEntity
 import com.sportunity.marathon.data.local.entity.events.TimetableEntity
 import com.sportunity.marathon.data.local.entity.events.TimetableXEntity
-import com.sportunity.marathon.data.local.entity.events.toDate
 import com.sportunity.marathon.data.remote.dto.Statistics
 import com.sportunity.marathon.data.remote.dto.events.Item
 import com.sportunity.marathon.data.remote.dto.events.Race
@@ -26,7 +25,7 @@ fun Item.toItemEntity(): ItemEntity {
 //        description = description,
 //        distanceUnits = distanceUnits,
 //        houseNumber = houseNumber,
-//        imageUrl = imageUrl,
+        imageUrl = imageUrl,
 //        liveTrackingText = liveTrackingText,
 //        liveTrackingTitle = liveTrackingTitle,
 //        logoUrl = logoUrl,
@@ -92,7 +91,7 @@ fun ItemEntity.toMarathon(): Marathon {
         dateFrom = dateFrom,
 //        dateTo = dateTo,
 //        description = description,
-//        imageUrl = imageUrl,
+        imageUrl = imageUrl,
         name = name
 //        state = state
 

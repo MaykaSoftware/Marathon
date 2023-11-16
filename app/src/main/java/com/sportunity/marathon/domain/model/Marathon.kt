@@ -10,7 +10,7 @@ class Marathon(
     val dateFrom: String?,
 //    val dateTo: String,
     val description: String? = "",
-//    val imageUrl: String,
+    val imageUrl: String?,
     val name: String,
 //    val state: String,
 )

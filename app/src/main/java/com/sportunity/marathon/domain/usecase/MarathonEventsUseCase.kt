@@ -1,7 +1,6 @@
 package com.sportunity.marathon.domain.usecase
 
 import androidx.paging.PagingData
-import com.sportunity.marathon.data.local.entity.events.ItemEntity
 import com.sportunity.marathon.domain.model.Marathon
 import com.sportunity.marathon.domain.repository.MarathonRepository
 import kotlinx.coroutines.flow.Flow

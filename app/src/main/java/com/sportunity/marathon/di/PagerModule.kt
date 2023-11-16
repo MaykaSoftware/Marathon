@@ -1,7 +1,5 @@
 package com.sportunity.marathon.di
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -23,15 +21,13 @@ object PagerModule {
     @Singleton
     fun provideArtObjectPager(
         marathonDatabase: MarathonDatabase,
-        marathonService: MarathonService,
-        dataStore: DataStore<Preferences>
+        marathonService: MarathonService
     ): Pager<Int, ItemEntity> {
         return Pager(
             config = PagingConfig(pageSize = 15),
             remoteMediator = MarathonRemoteMediator(
                 marathonDB = marathonDatabase,
-                marathonService = marathonService,
-                dataStore = dataStore
+                marathonService = marathonService
             ),
             pagingSourceFactory = {
                 marathonDatabase.getMarathonEvents().pagingSource()

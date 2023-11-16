@@ -21,13 +21,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import com.sportunity.marathon.AppScreen
 import com.sportunity.marathon.R
 import com.sportunity.marathon.domain.model.Marathon
 
 @Composable
 fun MarathonEventsScreen(
+    navController: NavController,
     marathonEvents: LazyPagingItems<Marathon>
 ) {
     val context = LocalContext.current
@@ -52,7 +55,14 @@ fun MarathonEventsScreen(
         ) {
             items(marathonEvents.itemCount) { index ->
                 MarathonItem(
-                    marathonEvent = marathonEvents[index] ?: return@items
+                    marathonEvent = marathonEvents[index] ?: return@items,
+                    onClick = {
+                        marathonEvents[index]?.let { marathon ->
+                            AppScreen.MarathonRaceScreen.passId(
+                                marathon.id
+                            )
+                        }?.let { route -> navController.navigate(route = route) }
+                    }
                 )
 
             }
