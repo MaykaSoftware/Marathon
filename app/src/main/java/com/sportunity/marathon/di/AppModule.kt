@@ -78,10 +78,9 @@ object AppModule {
     @Singleton
     fun bindArtRepository(
         pager: Pager<Int, ItemEntity>,
-        marathonService: MarathonService,
-        marathonEventDao: MarathonEventDao,
+        marathonService: MarathonService
         fusedLocationProviderClient: FusedLocationProviderClient
     ): MarathonRepository {
-        return MarathonRepositoryImpl(pager, marathonService, marathonEventDao, fusedLocationProviderClient)
+        return MarathonRepositoryImpl(pager, marathonService, fusedLocationProviderClient)
     }
 }
