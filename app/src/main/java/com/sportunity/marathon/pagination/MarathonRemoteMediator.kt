@@ -1,8 +1,5 @@
 package com.sportunity.marathon.pagination
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
@@ -13,8 +10,6 @@ import com.sportunity.marathon.data.local.database.MarathonDatabase
 import com.sportunity.marathon.data.local.entity.events.ItemEntity
 import com.sportunity.marathon.data.mapper.toItemEntity
 import com.sportunity.marathon.data.remote.service.MarathonService
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -24,8 +19,7 @@ import javax.inject.Singleton
 @Singleton
 class MarathonRemoteMediator @Inject constructor(
     private val marathonDB: MarathonDatabase,
-    private val marathonService: MarathonService,
-    private val dataStore: DataStore<Preferences>
+    private val marathonService: MarathonService
 ) : RemoteMediator<Int, ItemEntity>() {
 
     var loadKey = 0
