@@ -4,6 +4,7 @@ import android.location.Location
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.maps.model.LatLng
 import com.sportunity.marathon.domain.model.MarathonRace
 import com.sportunity.marathon.domain.usecase.ERROR
 import com.sportunity.marathon.domain.usecase.GetLocationUpdateUseCase
@@ -66,22 +67,12 @@ class MarathonRaceViewModel @Inject constructor(
         }.launchIn(viewModelScope)
 
     }
-
-//    fun getCurrentLocation(isDemoCurrent: Boolean){
-//        if(isDemoCurrent && !state.value.marathonRace?.coordinates.isNullOrEmpty()){
-//            mutableState.value = state.value.copy(currentLocation =
-//            Location(state.value.marathonRace.coordinates.get(0).latitude,
-//                state.value.marathonRace.coordinates.get(0).longitude)
-//            )
-//
-//        }
-//    }
-
 }
 
 data class State(
     val isLoading: Boolean = false,
     val marathonRace: MarathonRace? = null,
     val currentLocation: Location? = null,
+    val currentDemoLocation: LatLng = if (currentLocation!= null) LatLng(currentLocation.latitude, currentLocation.longitude) else  LatLng(0.0, 0.0),
     val errorMessage: String = ""
 )

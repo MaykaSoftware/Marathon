@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -92,8 +93,7 @@ fun Map(
 @Composable
 fun MyMap(
     mapProperties: MapProperties = MapProperties(
-        isMyLocationEnabled = true,
-        isTrafficEnabled = true
+        isMyLocationEnabled = true
     ),
     lineType: LineType = LineType.POLYLINE,
     state: State
@@ -128,10 +128,7 @@ fun MyMap(
             lineType = lineType,
             state = state
         )
-
-
     }
-
 }
 
 @Composable
@@ -141,7 +138,7 @@ fun AnimateCamera(
     coordinate: LatLng
 ) {
     val scope = rememberCoroutineScope()
-    LaunchedEffect(key1 = state.currentLocation, block = {
+    LaunchedEffect(key1 = state.marathonRace?.coordinates, block = {
         scope.launch {
             cameraPosition.animate(
                 update = CameraUpdateFactory.newCameraPosition(
@@ -149,7 +146,7 @@ fun AnimateCamera(
                         .target(
                             coordinate
                         ).build()
-                ), 1000
+                ), 2000
             )
         }
     })
@@ -178,21 +175,21 @@ fun LoadMap(
                 ) {
                     Marker(
                         state = MarkerState(position = state.marathonRace.coordinates.first()),
-                        title = "Location",
-                        snippet = "Marker in current location",
+                        title = state.marathonRace.raceName,
+                        snippet = "Start and Finish",
                         icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)
                     )
                 } else if (state.marathonRace != null) {
                     Marker(
                         state = MarkerState(position = state.marathonRace.coordinates.first()),
-                        title = "Location",
-                        snippet = "Marker in current location",
+                        title = state.marathonRace.raceName,
+                        snippet = "Start",
                         icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
                     )
                     Marker(
                         state = MarkerState(position = state.marathonRace.coordinates.last()),
-                        title = "Location",
-                        snippet = "Marker in current location",
+                        title = state.marathonRace.raceName,
+                        snippet = "Finish",
                         icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
                     )
                 }
