@@ -10,10 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.compose.collectAsLazyPagingItems
-import com.sportunity.marathon.presentation.events.MarathonEventsScreen
-import com.sportunity.marathon.presentation.events.MarathonEventsViewModel
+import com.sportunity.marathon.presentation.ArtApp
 import com.sportunity.marathon.ui.theme.MarathonTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,9 +25,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val viewModel = hiltViewModel<MarathonEventsViewModel>()
-                    val marathonEvents = viewModel.marathonEventsFlow.collectAsLazyPagingItems()
-                    MarathonEventsScreen(marathonEvents = marathonEvents)
+                    ArtApp()
                 }
             }
         }
