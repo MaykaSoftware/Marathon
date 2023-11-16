@@ -3,6 +3,8 @@ package com.sportunity.marathon.di
 import android.content.Context
 import androidx.paging.Pager
 import androidx.room.Room
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.sportunity.marathon.data.local.dao.MarathonEventDao
 import com.sportunity.marathon.data.local.database.MarathonDatabase
@@ -66,13 +68,20 @@ object AppModule {
             .baseUrl(BASE_URL)
     }
 
+    @Singleton
+    @Provides
+    fun provideFusedLocationProviderClient(@ApplicationContext context: Context): FusedLocationProviderClient {
+        return LocationServices.getFusedLocationProviderClient(context)
+    }
+
     @Provides
     @Singleton
     fun bindArtRepository(
         pager: Pager<Int, ItemEntity>,
         marathonService: MarathonService,
-        marathonEventDao: MarathonEventDao
+        marathonEventDao: MarathonEventDao,
+        fusedLocationProviderClient: FusedLocationProviderClient
     ): MarathonRepository {
-        return MarathonRepositoryImpl(pager, marathonService, marathonEventDao)
+        return MarathonRepositoryImpl(pager, marathonService, marathonEventDao, fusedLocationProviderClient)
     }
 }
