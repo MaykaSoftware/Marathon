@@ -3,8 +3,6 @@ package com.sportunity.marathon.data.local.entity.events
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
-import java.text.SimpleDateFormat
-import java.util.Calendar
 
 @Entity
 @Serializable
@@ -22,7 +20,7 @@ data class ItemEntity(
 //    val description: String?,
 //    val distanceUnits: String,
 //    val houseNumber: String?,
-//    val imageUrl: String,
+    val imageUrl: String?,
 //    val liveTrackingText: String,
 //    val liveTrackingTitle: String,
 //    val logoUrl: String,
@@ -38,8 +36,3 @@ data class ItemEntity(
 //    val trackingImageUrl: String,
 //    val type: String
 )
-
-fun String.toDate(): String {
-    val cal: Calendar = Calendar.getInstance()
-    return SimpleDateFormat("EEEE, dd MMMM yyyy").format(cal.time)
-}
