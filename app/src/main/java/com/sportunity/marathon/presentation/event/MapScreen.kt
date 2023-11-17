@@ -1,13 +1,14 @@
 package com.sportunity.marathon.presentation.event
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Switch
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,19 +38,78 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import com.sportunity.marathon.util.checkForPermission
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MapScreen(
+fun MapScreen(state: State) {
+    BottomSheetScaffold(
+        sheetPeekHeight = 80.dp,
+        sheetContent = {
+            BottomSheetContent(state)
+
+        }) { innerPadding ->
+        Box(
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            CheckLocationPermission(state = state)
+        }
+    }
+}
+
+@Composable
+fun BottomSheetContent(state: State) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(64.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            Text(text = "Swipe up to expand sheet")
+        }
+        Text(
+            text = "${state.marathonRace?.raceDistance ?: "0"} km",
+            fontSize = 12.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier.padding(vertical = 1.dp))
+        Text(
+            text = "${state.marathonRace?.name}",
+            fontSize = 12.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier.padding(vertical = 1.dp))
+        Text(
+            text = "${state.marathonRace?.raceName}",
+            fontSize = 12.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier.padding(vertical = 1.dp))
+        Text(
+            text = "${state.marathonRace?.date}",
+            fontSize = 12.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier.padding(vertical = 1.dp))
+        Text(
+            text = "${state.marathonRace?.countOfParticipants}",
+            fontSize = 12.sp,
+            color = Color.Black
+        )
+    }
+}
+
+@Composable
+fun CheckLocationPermission(
     modifier: Modifier = Modifier,
     state: State
 ) {
     val context = LocalContext.current
-    var hasLocationPermission by remember {
-        mutableStateOf(checkForPermission(context))
-    }
+    var hasLocationPermission by remember { mutableStateOf(checkForPermission(context)) }
     if (hasLocationPermission) {
-        Map(
-            modifier, state
-        )
+        MapContainer(modifier, state)
     } else {
         LocationPermissionScreen {
             hasLocationPermission = true
@@ -58,7 +118,7 @@ fun MapScreen(
 }
 
 @Composable
-fun Map(
+fun MapContainer(
     modifier: Modifier,
     state: State
 ) {
@@ -77,7 +137,7 @@ fun Map(
     ) {
         Box(Modifier.fillMaxSize()) {
             if (state.marathonRace?.coordinates?.isNotEmpty() == true) {
-                MyMap(
+                CameraPosition(
                     mapProperties = mapProperties,
                     lineType = LineType.POLYLINE,
                     state = state
@@ -91,7 +151,7 @@ fun Map(
 }
 
 @Composable
-fun MyMap(
+fun CameraPosition(
     mapProperties: MapProperties = MapProperties(
         isMyLocationEnabled = true
     ),
@@ -142,10 +202,10 @@ fun AnimateCamera(
         scope.launch {
             cameraPosition.animate(
                 update = CameraUpdateFactory.newCameraPosition(
-                    CameraPosition.Builder().zoom(12f)
-                        .target(
-                            coordinate
-                        ).build()
+                    CameraPosition.Builder()
+                        .zoom(12f)
+                        .target(coordinate)
+                        .build()
                 ), 2000
             )
         }
@@ -195,52 +255,15 @@ fun LoadMap(
                 }
             }
         }
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .background(Color.White)
-                .padding(8.dp)
-        ) {
-            Text(
-                text = "${state.marathonRace?.raceDistance ?: "0"} km",
-                fontSize = 12.sp,
-                color = Color.Black
-            )
-            Spacer(modifier = Modifier.padding(vertical = 1.dp))
-            Text(
-                text = "${state.marathonRace?.name}",
-                fontSize = 12.sp,
-                color = Color.Black
-            )
-            Spacer(modifier = Modifier.padding(vertical = 1.dp))
-            Text(
-                text = "${state.marathonRace?.raceName}",
-                fontSize = 12.sp,
-                color = Color.Black
-            )
-            Spacer(modifier = Modifier.padding(vertical = 1.dp))
-            Text(
-                text = "${state.marathonRace?.date}",
-                fontSize = 12.sp,
-                color = Color.Black
-            )
-            Spacer(modifier = Modifier.padding(vertical = 1.dp))
-            Text(
-                text = "${state.marathonRace?.countOfParticipants}",
-                fontSize = 12.sp,
-                color = Color.Black
-            )
-        }
     }
-}
-
-
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun PreviewMapScreen() {
-    MapScreen(modifier = Modifier, state = State())
 }
 
 enum class LineType {
     POLYLINE
+}
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+fun PreviewMapScreen() {
+    MapScreen(state = State())
 }
