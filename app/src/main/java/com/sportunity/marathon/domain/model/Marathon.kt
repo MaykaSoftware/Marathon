@@ -2,7 +2,6 @@ package com.sportunity.marathon.domain.model
 
 import androidx.annotation.DrawableRes
 import androidx.room.PrimaryKey
-import com.sportunity.marathon.R
 
 class Marathon(
     @PrimaryKey
