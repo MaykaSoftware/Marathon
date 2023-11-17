@@ -6,7 +6,6 @@ import androidx.room.Room
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.sportunity.marathon.data.local.dao.MarathonEventDao
 import com.sportunity.marathon.data.local.database.MarathonDatabase
 import com.sportunity.marathon.data.local.entity.events.ItemEntity
 import com.sportunity.marathon.data.remote.service.MarathonService
