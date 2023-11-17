@@ -33,7 +33,7 @@ fun MarathonItem(
     Card(
         modifier = modifier.clickable { onClick() }.height(256.dp).padding(horizontal = 24.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White,
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
         ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 10.dp
@@ -56,6 +56,7 @@ fun MarathonItem(
                 Text(
                     text = marathonEvent.name,
                     style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -64,6 +65,7 @@ fun MarathonItem(
                 Text(
                     text = marathonEvent.city ?: "",
                     style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -72,6 +74,7 @@ fun MarathonItem(
                 Text(
                     text = marathonEvent.dateFrom?.toDate() ?: "",
                     style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.fillMaxWidth()
                 )
             }

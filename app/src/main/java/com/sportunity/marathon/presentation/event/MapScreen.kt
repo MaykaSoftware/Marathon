@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -58,7 +59,8 @@ fun BottomSheetContent(state: State) {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.TopCenter
-    ) { Text("Swipe up to expand sheet") }
+    ) { Text("Swipe up to expand sheet",
+            color = MaterialTheme.colorScheme.primary) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -68,31 +70,31 @@ fun BottomSheetContent(state: State) {
         Text(
             text = "${state.marathonRace.raceDistance} km",
             fontSize = 12.sp,
-            color = Color.Black
+            color = MaterialTheme.colorScheme.primary,
         )
         Spacer(modifier = Modifier.padding(vertical = 1.dp))
         Text(
             text = state.marathonRace.name,
             fontSize = 12.sp,
-            color = Color.Black
+            color = MaterialTheme.colorScheme.primary,
         )
         Spacer(modifier = Modifier.padding(vertical = 1.dp))
         Text(
             text = state.marathonRace.raceName,
             fontSize = 12.sp,
-            color = Color.Black
+            color = MaterialTheme.colorScheme.primary,
         )
         Spacer(modifier = Modifier.padding(vertical = 1.dp))
         Text(
             text = state.marathonRace.date,
             fontSize = 12.sp,
-            color = Color.Black
+            color = MaterialTheme.colorScheme.primary,
         )
         Spacer(modifier = Modifier.padding(vertical = 1.dp))
         Text(
             text = "${state.marathonRace.countOfParticipants}",
             fontSize = 12.sp,
-            color = Color.Black
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }
