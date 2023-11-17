@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter
 fun MarathonRaceDTO.toMarathonRace(): MarathonRace {
     return MarathonRace(
         name = name,
-        raceName = route.features[0].properties?.name,
+        raceName = route.features[0].properties?.name ?: "",
         raceDistance = convertToKm(),
         date  = start.toDate(),
         countOfParticipants = participantCount,

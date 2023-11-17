@@ -15,7 +15,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,7 +35,6 @@ import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.sportunity.marathon.util.checkForPermission
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,31 +68,31 @@ fun BottomSheetContent(state: State) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "${state.marathonRace?.raceDistance ?: "0"} km",
+            text = "${state.marathonRace.raceDistance} km",
             fontSize = 12.sp,
             color = Color.Black
         )
         Spacer(modifier = Modifier.padding(vertical = 1.dp))
         Text(
-            text = "${state.marathonRace?.name}",
+            text = state.marathonRace.name,
             fontSize = 12.sp,
             color = Color.Black
         )
         Spacer(modifier = Modifier.padding(vertical = 1.dp))
         Text(
-            text = "${state.marathonRace?.raceName}",
+            text = state.marathonRace.raceName,
             fontSize = 12.sp,
             color = Color.Black
         )
         Spacer(modifier = Modifier.padding(vertical = 1.dp))
         Text(
-            text = "${state.marathonRace?.date}",
+            text = state.marathonRace.date,
             fontSize = 12.sp,
             color = Color.Black
         )
         Spacer(modifier = Modifier.padding(vertical = 1.dp))
         Text(
-            text = "${state.marathonRace?.countOfParticipants}",
+            text = "${state.marathonRace.countOfParticipants}",
             fontSize = 12.sp,
             color = Color.Black
         )
@@ -122,13 +120,11 @@ fun MapContainer(
     modifier: Modifier,
     state: State
 ) {
-    val mapProperties by remember {
-        mutableStateOf(
-            MapProperties(
-                isMyLocationEnabled = true,
-                isTrafficEnabled = true
-            )
-        )
+    val cameraPosition = rememberCameraPositionState {
+        position = CameraPosition.Builder().zoom(13f)
+            .target(
+                state.startLocation
+            ).build()
     }
     Column(
         modifier = modifier
@@ -136,58 +132,17 @@ fun MapContainer(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(Modifier.fillMaxSize()) {
-            if (state.marathonRace?.coordinates?.isNotEmpty() == true) {
-                CameraPosition(
-                    mapProperties = mapProperties,
-                    lineType = LineType.POLYLINE,
-                    state = state
+            if (state.marathonRace.coordinates.isNotEmpty()) {
+                AnimateCamera(
+                    state = state,
+                    cameraPosition = cameraPosition,
+                    coordinate = state.startLocation
                 )
-
+                LoadMap(cameraPosition = cameraPosition, state = state)
             } else {
                 CircularProgressIndicator()
             }
         }
-    }
-}
-
-@Composable
-fun CameraPosition(
-    mapProperties: MapProperties = MapProperties(
-        isMyLocationEnabled = true
-    ),
-    lineType: LineType = LineType.POLYLINE,
-    state: State
-) {
-
-    val latLngList by remember {
-        mutableStateOf(state.marathonRace?.coordinates)
-    }
-
-    state.currentLocation?.let { location ->
-        val coordinate = if (!latLngList.isNullOrEmpty()) LatLng(
-            latLngList!![0].latitude,
-            latLngList!![0].longitude
-        ) else
-            LatLng(
-                location.latitude, location.longitude
-            )
-
-        val cameraPosition = rememberCameraPositionState {
-            position = CameraPosition.Builder().zoom(12f)
-                .target(
-                    coordinate
-                ).build()
-        }
-
-        AnimateCamera(state = state, cameraPosition = cameraPosition, coordinate = coordinate)
-
-        LoadMap(
-            latLngList = latLngList,
-            cameraPosition = cameraPosition,
-            mapProperties = mapProperties,
-            lineType = lineType,
-            state = state
-        )
     }
 }
 
@@ -197,69 +152,63 @@ fun AnimateCamera(
     cameraPosition: CameraPositionState,
     coordinate: LatLng
 ) {
-    val scope = rememberCoroutineScope()
-    LaunchedEffect(key1 = state.marathonRace?.coordinates, block = {
-        scope.launch {
-            cameraPosition.animate(
-                update = CameraUpdateFactory.newCameraPosition(
-                    CameraPosition.Builder()
-                        .zoom(12f)
-                        .target(coordinate)
-                        .build()
-                ), 2000
-            )
-        }
+    LaunchedEffect(key1 = state.marathonRace.coordinates, block = {
+        cameraPosition.animate(
+            update = CameraUpdateFactory.newCameraPosition(
+                CameraPosition.Builder()
+                    .zoom(12f)
+                    .target(coordinate)
+                    .build()
+            ), 2000
+        )
     })
 }
 
 @Composable
 fun LoadMap(
-    latLngList: List<LatLng>?,
     cameraPosition: CameraPositionState,
-    mapProperties: MapProperties,
-    lineType: LineType,
+    mapProperties: MapProperties = MapProperties(
+        isMyLocationEnabled = true
+    ),
     state: State
 ) {
-    Box {
-        Box(modifier = Modifier.fillMaxSize()) {
-            GoogleMap(
-                modifier = Modifier.matchParentSize(),
-                cameraPositionState = cameraPosition,
-                properties = mapProperties
-            ) {
-                if (lineType == LineType.POLYLINE) {
-                    Polyline(points = latLngList!!, color = Color.Red)
-                }
-                if (state.marathonRace != null && state.marathonRace.coordinates.first().latitude == state.marathonRace.coordinates.last().latitude &&
-                    state.marathonRace.coordinates.first().longitude == state.marathonRace.coordinates.last().longitude
-                ) {
-                    Marker(
-                        state = MarkerState(position = state.marathonRace.coordinates.first()),
-                        title = state.marathonRace.raceName,
-                        snippet = "Start and Finish",
-                        icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)
-                    )
-                } else if (state.marathonRace != null) {
-                    Marker(
-                        state = MarkerState(position = state.marathonRace.coordinates.first()),
-                        title = state.marathonRace.raceName,
-                        snippet = "Start",
-                        icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
-                    )
-                    Marker(
-                        state = MarkerState(position = state.marathonRace.coordinates.last()),
-                        title = state.marathonRace.raceName,
-                        snippet = "Finish",
-                        icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
-                    )
-                }
-            }
+    Box(modifier = Modifier.fillMaxSize()) {
+        GoogleMap(
+            modifier = Modifier.matchParentSize(),
+            cameraPositionState = cameraPosition,
+            properties = mapProperties
+        ) {
+            Polyline(points = state.marathonRace.coordinates, color = Color.Red)
+            SetMarker(state = state)
         }
     }
 }
 
-enum class LineType {
-    POLYLINE
+@Composable
+fun SetMarker(state: State) {
+    if (state.marathonRace.coordinates.first().latitude == state.marathonRace.coordinates.last().latitude &&
+        state.marathonRace.coordinates.first().longitude == state.marathonRace.coordinates.last().longitude
+    ) {
+        Marker(
+            state = MarkerState(position = state.marathonRace.coordinates.first()),
+            title = state.marathonRace.raceName,
+            snippet = "Start and Finish",
+            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)
+        )
+    } else {
+        Marker(
+            state = MarkerState(position = state.marathonRace.coordinates.first()),
+            title = state.marathonRace.raceName,
+            snippet = "Start",
+            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
+        )
+        Marker(
+            state = MarkerState(position = state.marathonRace.coordinates.last()),
+            title = state.marathonRace.raceName,
+            snippet = "Finish",
+            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
+        )
+    }
 }
 
 @Preview(showSystemUi = true, showBackground = true)
