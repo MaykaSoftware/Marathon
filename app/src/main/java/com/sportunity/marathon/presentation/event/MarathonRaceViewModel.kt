@@ -56,7 +56,10 @@ class MarathonRaceViewModel @Inject constructor(
                     }
 
                     is RaceEventResult.Success -> {
-                        mutableState.value = state.value.copy(marathonRace = result.event)
+                        mutableState.value = state.value.copy(marathonRace = result.event, startLocation = LatLng(
+                            result.event.coordinates[0].latitude,
+                            result.event.coordinates[0].longitude
+                        ))
                     }
                 }
             }
@@ -71,8 +74,8 @@ class MarathonRaceViewModel @Inject constructor(
 
 data class State(
     val isLoading: Boolean = false,
-    val marathonRace: MarathonRace? = null,
+    val marathonRace: MarathonRace = MarathonRace(),
+    val startLocation: LatLng = LatLng(0.0, 0.0),
     val currentLocation: Location? = null,
-    val currentDemoLocation: LatLng = if (currentLocation!= null) LatLng(currentLocation.latitude, currentLocation.longitude) else  LatLng(0.0, 0.0),
     val errorMessage: String = ""
 )
