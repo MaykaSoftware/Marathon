@@ -58,9 +58,7 @@ fun BottomSheetContent(state: State) {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.TopCenter
-    ) {
-        Text(text = "Swipe up to expand sheet")
-    }
+    ) { Text("Swipe up to expand sheet") }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -121,7 +119,7 @@ fun MapContainer(
     state: State
 ) {
     val cameraPosition = rememberCameraPositionState {
-        position = CameraPosition.Builder().zoom(13f)
+        position = CameraPosition.Builder()
             .target(
                 state.startLocation
             ).build()
@@ -139,9 +137,7 @@ fun MapContainer(
                     coordinate = state.startLocation
                 )
                 LoadMap(cameraPosition = cameraPosition, state = state)
-            } else {
-                CircularProgressIndicator()
-            }
+            } else CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
     }
 }
@@ -156,7 +152,7 @@ fun AnimateCamera(
         cameraPosition.animate(
             update = CameraUpdateFactory.newCameraPosition(
                 CameraPosition.Builder()
-                    .zoom(12f)
+                    .zoom(11f)
                     .target(coordinate)
                     .build()
             ), 2000
