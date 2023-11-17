@@ -57,18 +57,18 @@ fun MapScreen(state: State) {
 
 @Composable
 fun BottomSheetContent(state: State) {
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.TopCenter
+    ) {
+        Text(text = "Swipe up to expand sheet")
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(64.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.TopCenter
-        ) {
-            Text(text = "Swipe up to expand sheet")
-        }
         Text(
             text = "${state.marathonRace?.raceDistance ?: "0"} km",
             fontSize = 12.sp,
