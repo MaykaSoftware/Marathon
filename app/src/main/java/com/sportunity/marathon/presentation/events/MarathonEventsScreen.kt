@@ -1,6 +1,5 @@
 package com.sportunity.marathon.presentation.events
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,10 +14,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -33,17 +30,6 @@ fun MarathonEventsScreen(
     navController: NavController,
     marathonEvents: LazyPagingItems<Marathon>
 ) {
-    val context = LocalContext.current
-    LaunchedEffect(key1 = marathonEvents.loadState) {
-        if (marathonEvents.loadState.refresh is LoadState.Error) {
-            Toast.makeText(
-                context,
-                "Error" + (marathonEvents.loadState.refresh as LoadState.Error).error.message,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
-
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -64,7 +50,6 @@ fun MarathonEventsScreen(
                         }?.let { route -> navController.navigate(route = route) }
                     }
                 )
-
             }
 
             marathonEvents.apply {
