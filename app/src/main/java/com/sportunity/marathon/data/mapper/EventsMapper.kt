@@ -5,6 +5,7 @@ import com.sportunity.marathon.data.local.entity.events.ItemEntity
 import com.sportunity.marathon.data.local.entity.events.RaceEntity
 import com.sportunity.marathon.data.local.entity.events.TimetableEntity
 import com.sportunity.marathon.data.local.entity.events.TimetableXEntity
+import com.sportunity.marathon.data.local.entity.events.randomImage
 import com.sportunity.marathon.data.remote.dto.Statistics
 import com.sportunity.marathon.data.remote.dto.events.Item
 import com.sportunity.marathon.data.remote.dto.events.Race
@@ -17,29 +18,10 @@ fun Item.toItemEntity(): ItemEntity {
         id = id,
 //        allSports = allSports,
         city = city,
-//        colorPrimary = colorPrimary,
-//        colorSecondary = colorSecondary,
-//        country = country,
         dateFrom = dateFrom,
-//        dateTo = dateTo,
 //        description = description,
-//        distanceUnits = distanceUnits,
-//        houseNumber = houseNumber,
-        imageUrl = imageUrl,
-//        liveTrackingText = liveTrackingText,
-//        liveTrackingTitle = liveTrackingTitle,
-//        logoUrl = logoUrl,
+        imageUrl = randomImage(),
         name = name
-//        participantAmountExpected = participantAmountExpected,
-//        postalCode = postalCode,
-//        state = state,
-//        street = street,
-//        temperatureUnits = temperatureUnits,
-//        timelineWelcomeImageUrl = timelineWelcomeImageUrl,
-//        timelineWelcomeText = timelineWelcomeText,
-//        timelineWelcomeTitle = timelineWelcomeTitle,
-//        trackingImageUrl = trackingImageUrl,
-//        type = type
     )
 }
 
@@ -87,13 +69,9 @@ fun ItemEntity.toMarathon(): Marathon {
     return Marathon(
         id = id,
         city = city,
-//        country = country,
         dateFrom = dateFrom,
-//        dateTo = dateTo,
 //        description = description,
         imageUrl = imageUrl,
         name = name
-//        state = state
-
     )
 }

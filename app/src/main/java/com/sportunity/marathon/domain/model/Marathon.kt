@@ -1,16 +1,16 @@
 package com.sportunity.marathon.domain.model
 
+import androidx.annotation.DrawableRes
 import androidx.room.PrimaryKey
+import com.sportunity.marathon.R
 
 class Marathon(
     @PrimaryKey
     val id: Int,
     val city: String?,
-//    val country: String,
     val dateFrom: String?,
-//    val dateTo: String,
     val description: String? = "",
-    val imageUrl: String?,
-    val name: String,
-//    val state: String,
+    @DrawableRes
+    val imageUrl: Int,
+    val name: String
 )
