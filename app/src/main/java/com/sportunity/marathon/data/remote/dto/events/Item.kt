@@ -6,16 +6,19 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Item(
     val id: Int,
+    val city: String?,
+    @SerialName("date_from")
+    val dateFrom: String?,
+    @SerialName("image_url")
+    val imageUrl: String?,
+    val name: String,
 //    @SerialName("all_sports")
 //    val allSports: List<String>,
-    val city: String?,
 //    @SerialName("color_primary")
 //    val colorPrimary: String,
 //    @SerialName("color_secondary")
 //    val colorSecondary: String,
 //    val country: String,
-    @SerialName("date_from")
-    val dateFrom: String?,
 //    @SerialName("date_to")
 //    val dateTo: String,
 //    val description: String?,
@@ -23,15 +26,12 @@ data class Item(
 //    val distanceUnits: String,
 //    @SerialName("house_number")
 //    val houseNumber: String?,
-    @SerialName("image_url")
-    val imageUrl: String?,
 //    @SerialName("live_tracking_text")
 //    val liveTrackingText: String,
 //    @SerialName("live_tracking_title")
 //    val liveTrackingTitle: String,
 //    @SerialName("logo_url")
 //    val logoUrl: String,
-    val name: String,
 //    @SerialName("participant_amount_expected")
 //    val participantAmountExpected: Int?,
 //    @SerialName("postal_code")

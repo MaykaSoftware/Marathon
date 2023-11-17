@@ -2,6 +2,7 @@ package com.sportunity.marathon.data.local.entity.events
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.sportunity.marathon.R
 import kotlinx.serialization.Serializable
 
 @Entity
@@ -12,27 +13,19 @@ data class ItemEntity(
     val id: Int,
 //    val allSports: List<String>,
     val city: String?,
-//    val colorPrimary: String,
-//    val colorSecondary: String,
-//    val country: String,
     val dateFrom: String?,
-//    val dateTo: String,
 //    val description: String?,
-//    val distanceUnits: String,
-//    val houseNumber: String?,
-    val imageUrl: String?,
-//    val liveTrackingText: String,
-//    val liveTrackingTitle: String,
-//    val logoUrl: String,
+    val imageUrl: Int,
     val name: String,
-//    val participantAmountExpected: Int?,
-//    val postalCode: String?,
-//    val state: String,
-//    val street: String?,
-//    val temperatureUnits: String,
-//    val timelineWelcomeImageUrl: String,
-//    val timelineWelcomeText: String,
-//    val timelineWelcomeTitle: String,
-//    val trackingImageUrl: String,
-//    val type: String
 )
+
+fun randomImage(): Int {
+    return when((1..3).shuffled().first()){
+        1 -> R.drawable.marathon
+        2 -> R.drawable.cycling
+        3 -> R.drawable.swimming
+        else -> {
+            R.drawable.marathon
+        }
+    }
+}
